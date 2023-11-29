@@ -14,12 +14,17 @@ def format_12h(h, m, s):
     h = 12 if h == 0 else h
     return f"{h:02d}:{m:02d}:{s:02d} {am_pm}"
 
+def espace(keyboard_event):
+    global en_pause
+    if keyboard_event.event_type == keyboard.KEY_DOWN:
+        en_pause = not en_pause
+
 def afficher_heure(heure_actuelle):
     global en_pause
     en_pause = False
-    keyboard.on_press_key('space', on_space)
+    keyboard.on_press_key('space', espace)
 
-    format_choisi = input("Choisissez le format d'heure (12 ou 24) : ")
+    format_choisi = input("Si vous souhaitez mettre en pause, veuillez utiliser la barre espace, choisissez le format d'heure (12 ou 24) : ")
 
     h, m, s = heure_actuelle
     while True:
@@ -52,12 +57,6 @@ def afficher_heure(heure_actuelle):
 
             time.sleep(1)
         except KeyboardInterrupt:
-            break
-
-def on_space(keyboard_event):
-    global en_pause
-    if keyboard_event.event_type == keyboard.KEY_DOWN:
-        en_pause = not en_pause
-
+            break       
 # test
 afficher_heure(heure_actuelle)
