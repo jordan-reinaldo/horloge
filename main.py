@@ -1,5 +1,4 @@
 import time
-import keyboard  # installation biblio python
 
 heure_actuelle = (13, 10, 55)
 heure_reveil = (13, 11, 00)
@@ -16,28 +15,32 @@ def format_12h(h, m, s):
 
 def afficher_heure(heure_actuelle):
     h, m, s = heure_actuelle
-    en_pause = False
+
+    # Demander à l'utilisateur de choisir le format d'heure
+    format_choisi = input("Choisissez le format d'heure (12 ou 24) : ")
 
     while True:
-        if keyboard.is_pressed('space'):
-            en_pause = not en_pause
+        alarme(heure_reveil, (h, m, s))
 
-        if not en_pause:
-            alarme(heure_reveil, (h, m, s))
+        if format_choisi == "12":
+            heure = format_12h(h, m, s)
+        elif format_choisi == "24":
             heure = f"{h:02d}:{m:02d}:{s:02d}"
-            print(heure, end="\r")
-            s += 1
+        else:
+            print("Format non valide, utilisation du format 24h par défaut")
+            heure = f"{h:02d}:{m:02d}:{s:02d}"
 
-            if s == 60:
-                s = 0
-                m += 1
-                if m == 60:
-                    m = 0
-                    h += 1
-                    if h == 24:
-                        h = 0
+        print(heure, end="\r")
+        s += 1
 
-        time.sleep(1)  # Attendre une seconde
+        if s == 60:
+            s = 0
+            m += 1
+            if m == 60:
+                m = 0
+                h += 1
+                if h == 24:
+                    h = 0
 
 # test
 afficher_heure(heure_actuelle) 
