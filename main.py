@@ -1,4 +1,5 @@
 import time
+import keyboard
 
 heure_actuelle = (13, 10, 55)
 heure_reveil = (13, 11, 00)
@@ -14,33 +15,49 @@ def format_12h(h, m, s):
     return f"{h:02d}:{m:02d}:{s:02d} {am_pm}"
 
 def afficher_heure(heure_actuelle):
-    h, m, s = heure_actuelle
+    global en_pause
+    en_pause = False
+    keyboard.on_press_key('space', on_space)
 
-    # Demander à l'utilisateur de choisir le format d'heure
     format_choisi = input("Choisissez le format d'heure (12 ou 24) : ")
 
+    h, m, s = heure_actuelle
     while True:
-        alarme(heure_reveil, (h, m, s))
+        try:
+            if en_pause:
+                time.sleep(0.1)
+                continue
 
-        if format_choisi == "12":
-            heure = format_12h(h, m, s)
-        elif format_choisi == "24":
-            heure = f"{h:02d}:{m:02d}:{s:02d}"
-        else:
-            print("Format non valide, utilisation du format 24h par défaut")
-            heure = f"{h:02d}:{m:02d}:{s:02d}"
+            alarme(heure_reveil, (h, m, s))
 
-        print(heure, end="\r")
-        s += 1
+            if format_choisi == "12":
+                heure = format_12h(h, m, s)
+            elif format_choisi == "24":
+                heure = f"{h:02d}:{m:02d}:{s:02d}"
+            else: 
+                print("Format non valide, utilisation du format 24h par défaut")
+                heure = f"{h:02d}:{m:02d}:{s:02d}"
 
-        if s == 60:
-            s = 0
-            m += 1
-            if m == 60:
-                m = 0
-                h += 1
-                if h == 24:
-                    h = 0
+            print(heure, end="\r")
+            s += 1
+
+            if s == 60:
+                s = 0
+                m += 1
+                if m == 60:
+                    m = 0
+                    h += 1
+                    if h == 24:
+                        h = 0
+
+            time.sleep(1)
+        except KeyboardInterrupt:
+            break
+
+def on_space(keyboard_event):
+    global en_pause
+    if keyboard_event.event_type == keyboard.KEY_DOWN:
+        en_pause = not en_pause
 
 # test
-afficher_heure(heure_actuelle) 
+afficher_heure(heure_actuelle)
