@@ -24,7 +24,8 @@ def afficher_heure(heure_actuelle):
     en_pause = False
     keyboard.on_press_key('space', espace)
 
-    format_choisi = input("Si vous souhaitez mettre en pause, veuillez utiliser la barre espace, choisissez le format d'heure (12 ou 24) : ")
+    format_choisi = input("Choisissez le format d'heure (12 ou 24) : ")
+    print("Si vous souhaitez mettre en pause, veuillez utiliser la barre espace")
 
     h, m, s = heure_actuelle
     while True:
