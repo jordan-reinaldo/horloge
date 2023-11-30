@@ -76,5 +76,5 @@ def afficher_heure(heure_actuelle):
         except KeyboardInterrupt:
             break       
 
-# Exécution de la fonction avec l'heure actuelle
+# Lancement de la fonction avec les paramètres heure actuelles que nous avons définit plus haut
 afficher_heure(heure_actuelle)
