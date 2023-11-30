@@ -9,10 +9,21 @@ def alarme(heure_reveil, heure_actuelle):
         print("C'est l'heure du réveil")
 
 def format_12h(h, m, s):
-    am_pm = "AM" if h < 12 else "PM"
+
+    # Déterminer AM ou PM
+    if h < 12:
+        am_pm = "AM"
+    else:
+        am_pm = "PM"
+
+    # Convertir l'heure en format 12 heures
     h = h % 12
-    h = 12 if h == 0 else h
+    if h == 0:
+        h = 12
+
+    # Renvoyer l'heure formatée
     return f"{h:02d}:{m:02d}:{s:02d} {am_pm}"
+
 
 def espace(keyboard_event):
     global en_pause
